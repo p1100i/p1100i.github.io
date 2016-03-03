@@ -1,8 +1,12 @@
 body {
-  background-color: black;
+  background-color: #161719;
   color: white;
-  padding: 20px;
   text-align: center;
+}
+
+
+.so {
+  margin-top: 200px;
 }
 
 * {
