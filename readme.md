@@ -1,6 +1,6 @@
 # home [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 
-homepage from p1100i
+homepage of p1100i
 
 [npm-image]: https://badge.fury.io/js/home.svg
 [npm-url]: https://npmjs.org/package/home

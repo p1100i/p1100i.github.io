@@ -1,0 +1,54 @@
+{
+  "name": "home",
+  "version": "0.1.0",
+  "description": "homepage of p1100i",
+  "scripts": {
+    "test": "./grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "url"
+  },
+  "keywords": [
+    "keywords"
+  ],
+  "author": {
+    "name": "peters",
+    "email": "p1100i.dev@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "node-static": "^0.7.7",
+    "socket.io": "^1.4.6"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-jasmine-nodejs": "^1.5.3",
+    "grunt-jscs": "^2.8.0",
+    "grunt-istanbul": "^0.7.0",
+    "grunt-env": "^0.4.4",
+    "grunt-angular-templates": "^1.0.3",
+    "grunt-bower-task": "^0.4.0",
+    "grunt-browserify": "^5.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.1",
+    "grunt-contrib-htmlmin": "^1.4.0",
+    "grunt-contrib-requirejs": "^1.0.0",
+    "grunt-contrib-stylus": "^1.0.0",
+    "grunt-gh-pages": "^1.0.0",
+    "grunt-md5symlink": "^0.1.0",
+    "grunt-symlinkassets": "^0.1.1",
+    "grunt-karma": "^2.0.0",
+    "karma": "^1.1.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-mocha-reporter": "^2.0.4",
+    "karma-phantomjs-launcher": "^1.0.1",
+    "karma-requirejs": "^1.0.0",
+    "phantomjs-polyfill": "^0.0.2"
+  }
+}

@@ -1,0 +1,64 @@
+body
+  text-align center
+  background-color $grey-white
+
+div.page-wrapper
+  height      auto
+  min-height  100%
+
+div.content-frame
+  min-width $content-width
+
+div.content-wrapper
+  width           $content-width
+  margin          0 auto
+  padding-top     $header-height
+  display         table
+  padding-bottom  $footer-height + 50px
+
+div.content
+  margin-top 30px
+
+nav.header
+  color             white
+  position          fixed
+  width             100%
+  height            $header-height
+  background-color  $grey-dark
+  mix-user-select(none)
+
+div.footer
+  color             white
+  clear             both
+  position          relative
+  height            $footer-height
+  margin-top        -1 * $footer-height
+  text-align        right
+  background-color  $grey-dark
+
+  span
+    display       inline-block
+    height        $footer-height - 5px
+    line-height   $footer-height - 5px
+
+div.menu-wrapper
+  text-align center
+
+ul.menu
+  display inline-block
+  text-align center
+
+  li
+    float left
+
+a.menu-button
+  color           $grey-white
+  display         table-cell
+  padding         0 10px
+  vertical-align  middle
+  &:hover
+    color white
+    background-color $grey
+
+span.github-icon
+  margin-left 5px
