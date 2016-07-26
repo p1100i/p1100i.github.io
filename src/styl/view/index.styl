@@ -6,30 +6,15 @@ div.page-wrapper
   min-height  100%
 
 div.content-wrapper
-  width           100%
   margin          0 auto
   padding-top     $header-height
-  display         table
   padding-bottom  $footer-height + 50px
 
 div.content
   margin-top 30px
+  padding 0 20px
 
-.menu-button
-  color           $grey-white
-  display         table-cell
-  padding         0 10px
-  vertical-align  middle
-  height          $header-height
-
-.menu-title
-  line-height $header-height
-
-i.github-icon
-  font-size 32px
-  vertical-align inherit
-
-nav.header
+table.header
   color             white
   position          fixed
   width             100%
@@ -37,52 +22,51 @@ nav.header
   background-color  $grey-dark
   mix-user-select(none)
 
-div.footer
+  img
+    margin-top 4px
+
+  a.menu-button
+    height $header-height
+
+  span.menu-title
+    line-height $header-height
+
+  i.icon
+    font-size 33px
+    vertical-align middle
+    line-height $header-height
+
+table.footer
+  width             100%
   color             white
   clear             both
   position          relative
   height            $footer-height
   margin-top        -1 * $footer-height
-  text-align        right
   background-color  $grey-dark
 
-  .menu-button
+  a.menu-button
     height $footer-height
 
-  .menu-title
+  span.menu-title
     line-height $footer-height
 
-  i.github-icon
-    margin-left 5px
-    padding-bottom 3px
+  i.icon
     font-size 26px
+    vertical-align middle
+    padding-right 4px
 
-div.menu-wrapper
-  text-align center
-
-ul.menu
-  display inline-block
-  text-align center
-
-  li
-    float left
-
-a.menu-button:hover
+a.menu-button
+  display         inline-block
+  color           $grey-white
+  padding         0 4px
+  vertical-align  middle
+  &:hover
     color white
     background-color $grey
 
-table.menu
-  width 100%
-  height $header-height
+span.menu-title
+  padding 0 6px
+
+span.app-name
   font-size 18px
-
-  td.title-cell
-    padding-left 10px
-
-  td.se-profile-cell
-    width 132px
-    img
-      display inherit
-
-  td.github-profile-cell
-    width 50px

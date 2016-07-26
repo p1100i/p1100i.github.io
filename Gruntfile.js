@@ -435,6 +435,8 @@ var
       },
 
       init = function init() {
+        TASK_CONFIG.pkg = grunt.file.readJSON('package.json');
+
         grunt.initConfig(TASK_CONFIG);
 
         grunt.loadNpmTasks('grunt-contrib-concat');
