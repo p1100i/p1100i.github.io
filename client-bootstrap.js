@@ -74,6 +74,7 @@ var
       'constant/route-config',
       'controller/about-controller',
       'controller/app-controller',
+      'controller/help-controller',
       'directive/help-directive',
       'factory/magic-service',
       'factory/setting-service'

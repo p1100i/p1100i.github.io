@@ -1,16 +1,12 @@
 body
-  text-align center
   background-color $grey-white
 
 div.page-wrapper
   height      auto
   min-height  100%
 
-div.content-frame
-  min-width $content-width
-
 div.content-wrapper
-  width           $content-width
+  width           100%
   margin          0 auto
   padding-top     $header-height
   display         table
@@ -18,6 +14,20 @@ div.content-wrapper
 
 div.content
   margin-top 30px
+
+.menu-button
+  color           $grey-white
+  display         table-cell
+  padding         0 10px
+  vertical-align  middle
+  height          $header-height
+
+.menu-title
+  line-height $header-height
+
+i.github-icon
+  font-size 32px
+  vertical-align inherit
 
 nav.header
   color             white
@@ -36,10 +46,16 @@ div.footer
   text-align        right
   background-color  $grey-dark
 
-  span
-    display       inline-block
-    height        $footer-height - 5px
-    line-height   $footer-height - 5px
+  .menu-button
+    height $footer-height
+
+  .menu-title
+    line-height $footer-height
+
+  i.github-icon
+    margin-left 5px
+    padding-bottom 3px
+    font-size 26px
 
 div.menu-wrapper
   text-align center
@@ -51,14 +67,22 @@ ul.menu
   li
     float left
 
-a.menu-button
-  color           $grey-white
-  display         table-cell
-  padding         0 10px
-  vertical-align  middle
-  &:hover
+a.menu-button:hover
     color white
     background-color $grey
 
-span.github-icon
-  margin-left 5px
+table.menu
+  width 100%
+  height $header-height
+  font-size 18px
+
+  td.title-cell
+    padding-left 10px
+
+  td.se-profile-cell
+    width 132px
+    img
+      display inherit
+
+  td.github-profile-cell
+    width 50px
