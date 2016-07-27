@@ -394,11 +394,9 @@ var
     ],
 
     'build' : [
-      'clean:publish',
       'compile',
       'minify',
-      'md5',
-      'copy:publish'
+      'md5'
     ],
 
     'test' : [
@@ -413,12 +411,12 @@ var
       'watch'
     ],
 
-    // 'publish' : [
-    //   'clean',
-    //   'bower',
-    //   'build',
-    //   'gh-pages'
-    // ],
+    'publish' : [
+      'clean',
+      'bower',
+      'build',
+      'copy:publish'
+    ],
 
     'default' : [
       'bower',
