@@ -25,7 +25,8 @@ var
 
       'precompiled' : 'build/precompiled',
       'compiled'    : 'build/compiled',
-      'minified'    : 'build/minified'
+      'minified'    : 'build/minified',
+      'publish'     : ['css', 'fonts', 'js', 'index.html']
     },
 
     'concat' : {
@@ -74,6 +75,13 @@ var
         'cwd'     : 'src/js/client',
         'src'     : '**/*',
         'dest'    : 'build/compiled/js'
+      },
+
+      'publish' : {
+        'expand'  : true,
+        'cwd'     : 'build/minified',
+        'src'     : '**/*',
+        'dest'    : '.'
       }
     },
 
@@ -386,9 +394,11 @@ var
     ],
 
     'build' : [
+      'clean:publish',
       'compile',
       'minify',
-      'md5'
+      'md5',
+      'copy:publish'
     ],
 
     'test' : [
@@ -403,12 +413,12 @@ var
       'watch'
     ],
 
-    'publish' : [
-      'clean',
-      'bower',
-      'build',
-      'gh-pages'
-    ],
+    // 'publish' : [
+    //   'clean',
+    //   'bower',
+    //   'build',
+    //   'gh-pages'
+    // ],
 
     'default' : [
       'bower',
