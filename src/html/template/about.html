@@ -1,6 +1,10 @@
 <div class="projects-title"><i class="fa fa-list-ul" aria-hidden="true"></i><span>My projects</span></div>
+
 <ul class="bg-solarized-7 shadow projects">
-  <li><a href="https://p1100i.github.io/jsorted" title=""><i class="fa fa-bar-chart" aria-hidden="true"></i>jsorted</a></li>
-  <li><a href="https://www.github.com/p1100i/generator-morf" title="A Yeoman generator"><i class="fa fa-space-shuttle" aria-hidden="true"></i>generator-morf</a></li>
-  <li><a href="https://p1100i.github.io/quadtree2.js" title=""><i class="fa fa-map" aria-hidden="true"></i>quadtree2.js</a></li>
+  <li data-ng-repeat="project in projects">
+    <a data-ng-href="{{project.href}}" title="{{project.description}}">
+      <i data-ng-class="'fa fa-' + project.icon" aria-hidden="true"></i>
+      <span data-ng-bind="project.name"></span>
+    </a>
+  </li>
 </ul>
