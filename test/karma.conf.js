@@ -1,8 +1,7 @@
 module.exports = function (config) {
   var
     options,
-    coverage  = process.env.KARMA_COVERAGE    === 'true',
-    verbose   = process.env.KARMA_VERBOSE     === 'true',
+    coverage  = process.env.KARMA_COVERAGE === 'true',
     browser   = process.env.KARMA_BROWSER,
 
     reporters           = [],
@@ -58,20 +57,14 @@ module.exports = function (config) {
   };
 
   if (coverage) {
-    coverageReporters.push({ 'type'  : 'html',       'subdir' : 'html' });
-    coverageReporters.push({ 'type'  : 'cobertura',  'subdir' : 'cobertura', 'file': 'cobertura.txt' });
-
-    if (verbose) {
-      coverageReporters.push({'type': 'text-summary'});
-      coverageReporters.push({'type': 'text'});
-    }
+    coverageReporters.push({ 'type' : 'json', 'subdir' : 'json', 'file': 'coverage.json' });
 
     options.preprocessors = {
-      '../../html/js/**/*.js': 'coverage'
+      'js/client/**/*.js': 'coverage'
     };
 
     options.coverageReporter = {
-      'dir'       : 'coverage',
+      'dir'       : '../../test/coverage/client',
       'reporters' : coverageReporters
     };
 

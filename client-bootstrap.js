@@ -8,11 +8,11 @@ var
       files = karma && karma.files,
 
       karmaRequirejsConfig = {
-        'baseUrl' : '/base/js'
+        'baseUrl' : '/base/js/client'
       },
 
       // Workaround so, r.js ignores it on minifaction.
-      karmaDeps = ['lib/angular-mocks/angular-mocks'],
+      karmaDeps = ['../lib/angular-mocks/angular-mocks'],
 
       onRequireJsFinished = function onRequireJsFinished() {
         if (karma) {
@@ -29,16 +29,16 @@ var
     }
 
     requirejs.config({
-      'baseUrl': '/js',
+      'baseUrl': '/js/client',
 
       'urlArgs' : function () {
         return '?' + Math.random().toString(36).slice(2);
       },
 
       'paths' : {
-        'angular'         : 'lib/angular/angular',
-        'angularCookies'  : 'lib/angular-cookies/angular-cookies',
-        'angularRoute'    : 'lib/angular-route/angular-route'
+        'angular'         : '../lib/angular/angular',
+        'angularCookies'  : '../lib/angular-cookies/angular-cookies',
+        'angularRoute'    : '../lib/angular-route/angular-route'
       },
 
       'shim' : {

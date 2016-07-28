@@ -74,7 +74,7 @@ var
         'expand'  : true,
         'cwd'     : 'src/js/client',
         'src'     : '**/*',
-        'dest'    : 'build/compiled/js'
+        'dest'    : 'build/compiled/js/client'
       },
 
       'publish' : {
@@ -103,7 +103,8 @@ var
 
     'env' : {
       'coverage': {
-        'SRC_COVERAGE' : '../test/coverage/instrument/src/js'
+        'SRC_COVERAGE'    : '../test/coverage/node/instrument/src/js/node',
+        'KARMA_COVERAGE'  : true
       }
     },
 
@@ -138,11 +139,11 @@ var
     },
 
     'instrument' : {
-      'files' : 'src/js/**/*.js',
+      'files' : 'src/js/node/**/*.js',
 
       'options' : {
         'lazy'      : true,
-        'basePath'  : 'test/coverage/instrument'
+        'basePath'  : 'test/coverage/node/instrument'
       }
     },
 
@@ -224,11 +225,11 @@ var
     },
 
     'makeReport' : {
-      'src' : 'test/coverage/reports/**/*.json',
+      'src' : 'test/coverage/**/*.json',
 
       'options' : {
-        'type'  : 'lcov',
-        'dir'   : 'test/coverage/reports',
+        'type'  : 'html',
+        'dir'   : 'test/coverage/html',
         'print' : 'detail'
       }
     },
@@ -267,12 +268,28 @@ var
       }
     },
 
+    'replace' : {
+      'coverage_client': {
+        'options': {
+          'patterns': [{
+            'match'       : /\/[^"]*build\/compiled/g,
+            'replacement' : 'src'
+          }]
+        },
+
+        'files': [{
+          'src'   : ['test/coverage/client/json/coverage.json'],
+          'dest'  : 'test/coverage/client/json/coverage.json'
+        }]
+      }
+    },
+
     'requirejs' : {
       'compile' : {
         'options': {
-          'baseUrl'         : 'build/compiled/js',
+          'baseUrl'         : 'build/compiled/js/client',
           'mainConfigFile'  : 'client-bootstrap.js',
-          'include'         : ['bootstrap.js'],
+          'include'         : ['../bootstrap.js'],
           'out'             : 'build/minified/js/bootstrap.js'
         }
       }
@@ -280,7 +297,8 @@ var
 
     'storeCoverage' : {
       'options' : {
-        'dir' : 'test/coverage/reports'
+        'include-all-sources' : true,
+        'dir'                 : 'test/coverage/node/json'
       }
     },
 
@@ -344,6 +362,8 @@ var
       'instrument',
       'jasmine_nodejs',
       'storeCoverage',
+      'karma',
+      'replace:coverage_client',
       'makeReport'
     ],
 
@@ -421,9 +441,8 @@ var
     'default' : [
       'bower',
       'test:style',
-      'coverage',
       'build',
-      'test:client'
+      'coverage'
     ]
   },
 
@@ -464,9 +483,10 @@ var
         grunt.loadNpmTasks('grunt-contrib-requirejs');
         grunt.loadNpmTasks('grunt-contrib-stylus');
         grunt.loadNpmTasks('grunt-gh-pages');
-        grunt.loadNpmTasks('grunt-md5symlink');
-        grunt.loadNpmTasks('grunt-symlinkassets');
         grunt.loadNpmTasks('grunt-karma');
+        grunt.loadNpmTasks('grunt-md5symlink');
+        grunt.loadNpmTasks('grunt-replace');
+        grunt.loadNpmTasks('grunt-symlinkassets');
 
         registerTasks(TASKS);
       };
