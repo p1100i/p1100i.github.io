@@ -2,8 +2,8 @@
   "name": "home",
   "description": "homepage of p1100i",
   "author": {
-    "name" : "peters",
-    "email" : "p1100i.dev@gmail.com"
+    "name": "peters",
+    "email": "p1100i.dev@gmail.com"
   },
   "license": "MIT",
   "moduleType": [],
@@ -15,10 +15,10 @@
     "test"
   ],
   "dependencies": {
-    "angular": "~1.5.0",
-    "angular-cookies": "~1.5.0",
-    "angular-mocks": "^1.5.7",
-    "angular-route": "~1.5.0",
-    "requirejs": "~2.2.0"
+    "angular": "^1.6.4",
+    "angular-cookies": "^1.6.4",
+    "angular-mocks": "^1.6.4",
+    "angular-route": "^1.6.4",
+    "requirejs": "^2.3.3"
   }
 }
