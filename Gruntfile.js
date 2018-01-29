@@ -368,12 +368,12 @@ var
     ],
 
     'test:core' : [
-      'jshint:default',
-      'jasmine_nodejs'
+      'jshint:default'
+      // 'jasmine_nodejs'
     ],
 
     'test:client' : [
-      'karma'
+      // 'karma'
     ],
 
     'test:style' : [
@@ -441,8 +441,8 @@ var
     'default' : [
       'bower',
       'test:style',
-      'build',
-      'coverage'
+      'build'
+      // 'coverage'
     ]
   },
 
