@@ -1,5 +1,6 @@
 var
-  html = document.getElementsByTagName('html')[0],
+  shortMethods  = require('short-methods'),
+  html          = document.getElementsByTagName('html')[0],
 
   init = function init() {
     var
@@ -74,6 +75,7 @@ var
       'constant/route-config',
       'controller/about-controller',
       'controller/app-controller',
+      'controller/divide-controller',
       'controller/help-controller',
       'directive/help-directive',
       'factory/magic-service',
@@ -97,7 +99,8 @@ var
 
             $routeProvider.when(path, {
               'controller'  : controller,
-              'templateUrl' : route.templateUrl
+              'templateUrl' : route.templateUrl,
+              'reloadOnSearch'  : false
             });
           }
         }
@@ -108,6 +111,8 @@ var
       }]);
 
       window.angularTemplates(app);
+
+      shortMethods(true);
 
       angular.bootstrap(html, ['app']);
 

@@ -1,0 +1,43 @@
+div.divide
+  ul.items,
+  ul.result,
+  ul.settings
+    margin            10px
+    float             left
+    background-color  $solarized-8
+    display           inline-block
+    padding           16px 30px
+    mix-border-radius(10px)
+
+    label
+      color white
+      margin-right 10px
+
+    div.solution
+      color white
+
+  li.item
+    line-height 22px
+
+  span.parsed-value
+    color $solarized-5
+    font-size 12px
+
+  input[type=text]
+    font-family monospace
+    text-align  center
+
+  ul.items
+    input[type=text]
+      text-align right
+
+  button
+    margin-top  5px
+    font-size   14px
+
+  textarea
+    font-size 12px
+    font-family monospace
+    height 200px
+    min-width 400px
+

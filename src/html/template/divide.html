@@ -1,0 +1,65 @@
+<div class="divide">
+  <ul class="items">
+    <li>
+      <label>Usable items</label>
+    </li>
+
+    <li class="item" data-ng-repeat="item in items">
+      <button class="fa fa-minus-circle" data-ng-click="removeItem(item)"></button>
+      <input type="text" data-ng-model="item.str" data-ng-change="reparse()">
+      <span class="parsed-value" data-ng-bind="item.value"></span>
+    </li>
+
+    <li>
+      <button class="width-100p" data-ng-click="addItem()">Add new item</button>
+    </li>
+  </ul>
+
+  <ul class="settings">
+    <li>
+      <label>Control</label>
+    </li>
+
+    <li>
+      <input
+        type="text"
+        placeholder="Value to divide"
+        data-ng-class="control.divide.css"
+        data-ng-model="control.divide.str"
+        data-ng-change="reparse()">
+    </li>
+
+    <li>
+      <input
+        type="text"
+        placeholder="Number of tries"
+        data-ng-class="control.tries.css"
+        data-ng-model="control.tries.str"
+        data-ng-change="reparse()">
+    </li>
+
+    <li>
+      <button class="width-100p" data-ng-click="save()">Bookmark set values</button>
+    </li>
+
+    <li>
+      <button class="width-100p" data-ng-click="example()">Example</button>
+    </li>
+
+    <li>
+      <button class="width-100p" data-ng-click="run()">Run</button>
+    </li>
+  </ul>
+
+  <ul class="result" data-ng-if="solution">
+    <li>
+      <textarea data-ng-bind="solution"></textarea>
+    </li>
+  </ul>
+
+  <ul class="result" data-ng-if="bookmark">
+    <li>
+      <textarea data-ng-bind="bookmark"></textarea>
+    </li>
+  </ul>
+</div>

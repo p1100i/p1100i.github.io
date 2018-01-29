@@ -328,6 +328,10 @@ var
     },
 
     'watch' : {
+      'options' : {
+        'spawn' : false
+      },
+
       'asset' : {
         'files' : ['asset/**/*'],
         'tasks' : ['copy:asset_compiled', 'copy:asset_minified']
