@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "description": "Homepage of p1100i",
   "scripts": {
+    "bump": "npm version $VERSION && ./grunt publish && git add -A && git commit --amend --no-edit && git tag -f v$VERSION",
     "test": "./grunt"
   },
+  "private" : true,
   "repository": {
     "type": "git",
     "url": "url"
