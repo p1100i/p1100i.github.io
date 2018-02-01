@@ -1,4 +1,8 @@
 var
+  getCommit = function getCommit() {
+    return require('child_process').spawnSync('git', ['rev-parse', '--short', 'HEAD']).stdout.toString().trim();
+  },
+
   TASK_CONFIG = {
     'bower' : {
       'install' : {
@@ -266,6 +270,22 @@ var
     },
 
     'replace' : {
+      'build' : {
+        'options': {
+          'patterns': [{
+            'json' : {
+              'BUILD_DATE'    : Date.now(),
+              'BUILD_COMMIT'  : getCommit()
+            }
+          }]
+        },
+
+        'files': [{
+          'src'   : ['build/precompiled/js/client-bootstrap.js'],
+          'dest'  : 'build/precompiled/js/client-bootstrap.js'
+        }]
+      },
+
       'coverage_client': {
         'options': {
           'patterns': [{
@@ -386,6 +406,7 @@ var
       'clean:precompiled',
       'clean:compiled',
       'browserify',
+      'replace:build',
       'ngtemplates',
       'concat:compiled',
       'stylus:compiled',

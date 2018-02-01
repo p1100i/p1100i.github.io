@@ -7,6 +7,14 @@ define(['app'], function (app) {
 
       data = {},
 
+      getDateFormat = function getDateFormat(short) {
+        if (short) {
+          return 'yyyy-MM-dd HH:mm';
+        }
+
+        return 'yyyy-MM-dd HH:mm:ss';
+      },
+
       get = function get(key) {
         var
           value = data[key];
@@ -26,8 +34,9 @@ define(['app'], function (app) {
     init();
 
     return {
-      'get' : get,
-      'set' : set
+      'get'           : get,
+      'getDateFormat' : getDateFormat,
+      'set'           : set
     };
   }]);
 });

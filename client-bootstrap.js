@@ -1,6 +1,7 @@
 var
   shortMethods  = require('short-methods'),
   html          = document.getElementsByTagName('html')[0],
+  pkg           = require('./package'),
 
   init = function init() {
     var
@@ -63,6 +64,20 @@ var
     if (karma) {
       requirejs.config(karmaRequirejsConfig);
     }
+
+    define('pkg', function () {
+      return pkg;
+    });
+
+    define('build', function () {
+      //
+      // Strings gets replaced on build time, by grunt.
+      //
+      return {
+        'date'    : '@@BUILD_DATE',
+        'commit'  : '@@BUILD_COMMIT'
+      };
+    });
 
     //
     // List all of your services/constants/controllers/etc, here.

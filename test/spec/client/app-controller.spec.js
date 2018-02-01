@@ -8,7 +8,8 @@ describe('appController', function () {
 
     var
       settingService = {
-        'get' : function () { return 'getValue'; }
+        'get' : function () { return 'getValue'; },
+        'getDateFormat' : function getDateFormat() {}
       },
 
       spies = {
