@@ -1,7 +1,7 @@
 {
-  "name": "home",
+  "name": "p1100i.github.io",
   "version": "0.1.0",
-  "description": "homepage of p1100i",
+  "description": "Homepage of p1100i",
   "scripts": {
     "test": "./grunt"
   },
