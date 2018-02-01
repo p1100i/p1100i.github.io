@@ -3,6 +3,13 @@ define(['app'], function (app) {
     var
       PROJECTS = [
         [
+          'glitch-hunters',
+          'Game created for 2016 JS13k.',
+          'https://coding-monkey-business.github.io/glitch-hunters/',
+          'gamepad'
+        ],
+
+        [
           'expendebles',
           'Your personal privacy-respecting cashflow app.',
           'https://p1100i.github.io/expendebles',
