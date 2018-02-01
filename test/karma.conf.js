@@ -18,10 +18,9 @@ module.exports = function (config) {
     'reportSlowerThan': 500,
 
     'files': [
-      '../../node_modules/phantomjs-polyfill/bind-polyfill.js',
+      'js/bootstrap.js',
       { 'pattern' : 'js/**/*.js',                           'included': false },
-      { 'pattern' : '../../test/spec/client/**/*.spec.js',  'included': false },
-      'js/bootstrap.js'
+      { 'pattern' : '../../test/spec/client/**/*.spec.js',  'included': false }
     ],
 
     'mochaReporter': {

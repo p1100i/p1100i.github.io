@@ -147,16 +147,6 @@ var
       }
     },
 
-    'jasmine_nodejs' : {
-      'options' : {
-        'random' : true
-      },
-
-      'all' : {
-        'specs' : 'test/spec/node/**/*.spec.js'
-      }
-    },
-
     'jscs' : {
       'options' : {
         'disallowTrailingWhitespace'            : true,
@@ -178,6 +168,13 @@ var
       },
 
       'default' : ['*.js', 'config', 'src', 'test/spec']
+    },
+
+    'jasmine-node' : {
+      'options' : {
+        'spec_files'  : ['test/spec/node/**/*.spec.js'],
+        'random'      : true
+      }
     },
 
     'jshint' : {
@@ -364,7 +361,7 @@ var
       'clean:coverage',
       'env:coverage',
       'instrument',
-      'jasmine_nodejs',
+      'jasmine-node',
       'storeCoverage',
       'karma',
       'replace:coverage_client',
@@ -372,12 +369,12 @@ var
     ],
 
     'test:core' : [
-      'jshint:default'
-      // 'jasmine_nodejs'
+      'jshint:default',
+      'jasmine-node'
     ],
 
     'test:client' : [
-      // 'karma'
+      'karma'
     ],
 
     'test:style' : [
@@ -470,27 +467,7 @@ var
 
         grunt.initConfig(TASK_CONFIG);
 
-        grunt.loadNpmTasks('grunt-contrib-concat');
-        grunt.loadNpmTasks('grunt-contrib-clean');
-        grunt.loadNpmTasks('grunt-contrib-watch');
-        grunt.loadNpmTasks('grunt-jasmine-nodejs');
-        grunt.loadNpmTasks('grunt-jscs');
-        grunt.loadNpmTasks('grunt-istanbul');
-        grunt.loadNpmTasks('grunt-env');
-        grunt.loadNpmTasks('grunt-angular-templates');
-        grunt.loadNpmTasks('grunt-bower-task');
-        grunt.loadNpmTasks('grunt-browserify');
-        grunt.loadNpmTasks('grunt-contrib-jshint');
-        grunt.loadNpmTasks('grunt-contrib-copy');
-        grunt.loadNpmTasks('grunt-contrib-cssmin');
-        grunt.loadNpmTasks('grunt-contrib-htmlmin');
-        grunt.loadNpmTasks('grunt-contrib-requirejs');
-        grunt.loadNpmTasks('grunt-contrib-stylus');
-        grunt.loadNpmTasks('grunt-gh-pages');
-        grunt.loadNpmTasks('grunt-karma');
-        grunt.loadNpmTasks('grunt-md5symlink');
-        grunt.loadNpmTasks('grunt-replace');
-        grunt.loadNpmTasks('grunt-symlinkassets');
+        require('load-grunt-tasks')(grunt);
 
         registerTasks(TASKS);
       };
