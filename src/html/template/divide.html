@@ -1,17 +1,35 @@
 <div class="divide">
   <ul class="items">
     <li>
-      <label>Usable items</label>
+      <label title="Add items to this list which can be used to calculate the needed value.">Usable items</label>
     </li>
 
     <li class="item" data-ng-repeat="item in items">
-      <button class="fa fa-minus-circle" data-ng-click="removeItem(item)"></button>
-      <input type="text" data-ng-model="item.str" data-ng-change="reparse()">
-      <span class="parsed-value" data-ng-bind="item.value"></span>
+      <button
+        title="Click here to remove an item from the list"
+        class="fa fa-minus-circle text-solarized-1 border-radius remove"
+        data-ng-click="removeItem(item)">
+      </button>
+
+      <input
+        title="Enter an item here, which contain a number. (e.g. 20 - petrol)"
+        type="text"
+        data-ng-model="item.str"
+        data-ng-change="reparse()">
+      <span
+        title="The parsed numerical value of the element, which will be used for the calculation."
+        class="parsed-value"
+        data-ng-bind="item.value">
+      </span>
     </li>
 
     <li>
-      <button class="width-100p" data-ng-click="addItem()">Add new item</button>
+      <button
+        title="Click here to add new item to be used when calculating the value to be divided up."
+        class="action"
+        data-ng-click="addItem()">
+        Add new item
+      </button>
     </li>
   </ul>
 
@@ -23,6 +41,8 @@
     <li>
       <input
         type="text"
+        class="width-100p"
+        title="Enter the value to be divided up by the items."
         placeholder="Value to divide"
         data-ng-class="control.divide.css"
         data-ng-model="control.divide.str"
@@ -32,6 +52,8 @@
     <li>
       <input
         type="text"
+        class="width-100p"
+        title="Enter the number of tries for a single run of the algorithm. If you have a lot of items, you want to have a high value here (e.g. for 10 items 10000 is an OK value)."
         placeholder="Number of tries"
         data-ng-class="control.tries.css"
         data-ng-model="control.tries.str"
@@ -39,27 +61,42 @@
     </li>
 
     <li>
-      <button class="width-100p" data-ng-click="save()">Bookmark set values</button>
+      <button
+        title="Click here to generate an URL, which can be opened later in a browser to have the same items set as you have now."
+        class="action"
+        data-ng-click="save()">
+        Save as bookmark
+      </button>
     </li>
 
     <li>
-      <button class="width-100p" data-ng-click="example()">Example</button>
+      <button
+        title="Click here if you want to add some example items to see how this whole thing works."
+        class="action"
+        data-ng-click="example()">
+        Example
+      </button>
     </li>
 
     <li>
-      <button class="width-100p" data-ng-click="run()">Run</button>
+      <button
+        title="Click here to execute the calculation"
+        class="action"
+        data-ng-click="run()">
+        Run
+      </button>
     </li>
   </ul>
 
   <ul class="result" data-ng-if="solution">
     <li>
-      <textarea data-ng-bind="solution"></textarea>
+      <textarea title="Calculation result." data-ng-bind="solution"></textarea>
     </li>
   </ul>
 
   <ul class="result" data-ng-if="bookmark">
     <li>
-      <textarea data-ng-bind="bookmark"></textarea>
+      <textarea title="Use this link to open this page with your set values." data-ng-bind="bookmark"></textarea>
     </li>
   </ul>
 </div>

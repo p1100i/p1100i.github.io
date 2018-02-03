@@ -26,14 +26,24 @@ div.divide
   input[type=text]
     font-family monospace
     text-align  center
+    box-sizing  border-box
 
   ul.items
     input[type=text]
       text-align right
 
-  button
+  button.remove
+    float   left
+    margin  2px
+
+  button.action
     margin-top  5px
     font-size   14px
+    width       100%
+    min-width   200px
+    mix-border-radius(5px)
+    &:hover
+      font-weight bold
 
   textarea
     font-size 12px
