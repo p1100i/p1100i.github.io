@@ -1,4 +1,7 @@
-- 1.1.1
+- 1.1.2
+  - fix build commit
+
++ 1.1.1
   + move build info to page content
 
 + 1.1.0
