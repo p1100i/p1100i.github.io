@@ -1,6 +1,6 @@
 var
   getCommit = function getCommit() {
-    return require('child_process').spawnSync('git', ['rev-parse', '--short', 'HEAD']).stdout.toString().trim();
+    return require('child_process').spawnSync('git', ['rev-parse', '--short', 'HEAD^']).stdout.toString().trim();
   },
 
   TASK_CONFIG = {
