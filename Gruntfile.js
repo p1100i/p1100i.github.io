@@ -29,8 +29,8 @@ var
 
       'precompiled' : 'build/precompiled',
       'compiled'    : 'build/compiled',
-      'minified'    : 'build/minified',
-      'publish'     : ['css', 'fonts', 'js', 'index.html']
+      'minified'    : 'build/minified'
+      // 'publish'     : ['css', 'fonts', 'js', 'index.html']
     },
 
     'concat' : {
