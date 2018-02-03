@@ -1,10 +1,39 @@
-<div class="projects-title"><i class="fa fa-list-ul" aria-hidden="true"></i><span>My projects</span></div>
+<div class="about">
+  <div class="section-title">
+    <i class="fa fa-list-ul" aria-hidden="true"></i>
+    <span>Build info</span>
+  </div>
 
-<ul class="bg-solarized-7 shadow projects">
-  <li data-ng-repeat="project in projects">
-    <a data-ng-href="{{project.href}}" title="{{project.description}}">
-      <i data-ng-class="'fa fa-' + project.icon" aria-hidden="true"></i>
-      <span data-ng-bind="project.name"></span>
-    </a>
-  </li>
-</ul>
+  <div class="build-info">
+    <ul>
+      <li>
+        <label>Version</label>
+        <span title="version" class="bubble" data-ng-bind="version"></span>
+      </li>
+
+      <li>
+        <label>Build date</label>
+        <span title="build time" class="bubble">{{buildDate | date:format}}</span>
+      </li>
+
+      <li>
+        <label>Build commit</label>
+        <span title="build commit" class="bubble" data-ng-bind="buildCommit"></span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section-title">
+    <i class="fa fa-list-ul" aria-hidden="true"></i>
+    <span>My projects</span>
+  </div>
+
+  <ul class="bg-solarized-7 shadow projects">
+    <li data-ng-repeat="project in projects">
+      <a data-ng-href="{{project.href}}" title="{{project.description}}">
+        <i data-ng-class="'fa fa-' + project.icon" aria-hidden="true"></i>
+        <span data-ng-bind="project.name"></span>
+      </a>
+    </li>
+  </ul>
+</div>

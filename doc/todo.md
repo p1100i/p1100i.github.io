@@ -1,3 +1,6 @@
+- 1.1.1
+  + move build info to page content
+
 + 1.1.0
   + convert title-text (top-left) to clickable /root link
 
