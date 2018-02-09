@@ -29,8 +29,8 @@ var
 
       'precompiled' : 'build/precompiled',
       'compiled'    : 'build/compiled',
-      'minified'    : 'build/minified'
-      // 'publish'     : ['css', 'fonts', 'js', 'index.html']
+      'minified'    : 'build/minified',
+      'publish'     : 'publish'
     },
 
     'concat' : {
@@ -85,7 +85,7 @@ var
         'expand'  : true,
         'cwd'     : 'build/minified',
         'src'     : '**/*',
-        'dest'    : '.'
+        'dest'    : 'publish'
       }
     },
 
@@ -270,6 +270,22 @@ var
     },
 
     'replace' : {
+      'publish' : {
+        'options': {
+          'patterns': [{
+            'match'       : /(href|src)="(css|js)/g,
+            'replacement' : function (fullMatch, linkType, folder) {
+              return linkType + '="publish/' + folder;
+            }
+          }]
+        },
+
+        'files': [{
+          'src'   : ['publish/index.html'],
+          'dest'  : 'publish/index.html'
+        }]
+      },
+
       'build' : {
         'options': {
           'patterns': [{
@@ -457,7 +473,8 @@ var
       'clean',
       'bower',
       'build',
-      'copy:publish'
+      'copy:publish',
+      'replace:publish'
     ],
 
     'default' : [
