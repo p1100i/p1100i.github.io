@@ -1,3 +1,6 @@
++ 1.1.3
+  + move page to separate publish folder
+
 + 1.1.2
   + fix build commit
 
