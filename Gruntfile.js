@@ -368,7 +368,7 @@ module.exports = function runGrunt(grunt) {
           'publish' : {
             'options': {
               'patterns': [{
-                'match'       : /(href|src)="(css|js)/g,
+                'match'       : /(href|src)="(css|js|png)/g,
                 'replacement' : function (fullMatch, linkType, folder) {
                   return linkType + '="publish/' + folder;
                 }
