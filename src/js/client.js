@@ -88,8 +88,8 @@ var
     requirejs([
       'angular',
       'app',
-      'angularRoute',
       'angularLocalStorage',
+      'angularRoute',
       'constant/route-config',
       'controller/about-controller',
       'controller/app-controller',
