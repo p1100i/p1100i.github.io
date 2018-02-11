@@ -16,7 +16,6 @@ var
 
   // Pretty date stamp.
   date          = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-  di            = require('./dimodule/di-server'),
 
   arrow = function arrow(str, style) {
     var
