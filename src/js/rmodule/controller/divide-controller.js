@@ -1,11 +1,13 @@
 define(['app'], function (app) {
-  app.controller('divideController', ['$scope', '$location', '$window', 'settingService', function DivideControllerFactory($scope, $location, $window, settingService) {
+  app.controller('divideController', ['$location', '$window', function DivideControllerFactory($location, $window) {
     var
+      divide = this,
+
       items = [],
 
       control = {
-        'tries'   : {},
-        'divide'  : {}
+        'tries' : {},
+        'sum'   : {}
       },
 
       refine = function refine(item) {
@@ -33,8 +35,8 @@ define(['app'], function (app) {
         addItem('110 - nutella');
         addItem('40 - cucumber');
 
-        control.divide  = createItem('220');
-        control.tries   = createItem('100');
+        control.sum   = createItem('220');
+        control.tries = createItem('100');
       },
 
       save = function save() {
@@ -44,7 +46,7 @@ define(['app'], function (app) {
 
         $location.search('items', bookmark);
 
-        $scope.bookmark = $location.absUrl();
+        divide.bookmark = $location.absUrl();
       },
 
       reparse = function reparse() {
@@ -55,7 +57,7 @@ define(['app'], function (app) {
           refine(items[len]);
         }
 
-        refine(control.divide);
+        refine(control.sum);
         refine(control.tries);
       },
 
@@ -77,11 +79,11 @@ define(['app'], function (app) {
           control.tries.css = '';
         }
 
-        if (!control.divide.value) {
-          control.divide.css = 'bg-solarized-1';
+        if (!control.sum.value) {
+          control.sum.css = 'bg-solarized-1';
           valid = false;
         } else {
-          control.divide.css = '';
+          control.sum.css = '';
         }
 
         return valid;
@@ -96,7 +98,7 @@ define(['app'], function (app) {
 
         var
           use,
-          divide,
+          sum,
           success,
           tries     = control.tries.value,
           used      = [];
@@ -104,19 +106,19 @@ define(['app'], function (app) {
         while (--tries) {
           used.clear();
 
-          divide = control.divide.value;
+          sum = control.sum.value;
 
-          while (divide > 0) {
-            use     = pickRandom();
-            divide -= use.value;
+          while (sum > 0) {
+            use  = pickRandom();
+            sum -= use.value;
 
             used.push(use.str);
           }
 
-          if (divide === 0) {
+          if (sum === 0) {
             success = true;
             used.push('+ ===========');
-            used.push(control.divide.value);
+            used.push(control.sum.value);
             break;
           }
         }
@@ -132,7 +134,7 @@ define(['app'], function (app) {
           used.push('SUCCES - Calculated with ' + tries + ' tries');
         }
 
-        $scope.solution = used.join('\n');
+        divide.solution = used.join('\n');
       },
 
       removeItem = function removeItem(item) {
@@ -140,14 +142,14 @@ define(['app'], function (app) {
       },
 
       init = function init() {
-        $scope.removeItem = removeItem;
-        $scope.reparse    = reparse;
-        $scope.control    = control;
-        $scope.example    = example;
-        $scope.run        = run;
-        $scope.save       = save;
-        $scope.items      = items;
-        $scope.addItem    = addItem;
+        divide.removeItem = removeItem;
+        divide.reparse    = reparse;
+        divide.control    = control;
+        divide.example    = example;
+        divide.run        = run;
+        divide.save       = save;
+        divide.items      = items;
+        divide.addItem    = addItem;
 
         control.tries   = createItem('100');
 

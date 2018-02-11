@@ -1,19 +1,7 @@
-define(['app', 'di', 'socketIo'], function (app, di, socketIo) {
-  app.controller('appController', ['$rootScope', '$location', '$window', 'settingService', function appControllerFactory($rootScope, $location, $window, settingService) {
+define(['app'], function (app) {
+  app.controller('appController', ['$rootScope', '$location', '$window', function appControllerFactory($rootScope, $location, $window) {
     var
       app = this,
-
-      //
-      // Remove these line if you don't need socketIo connection.
-      //
-      // You can remove the SocketClient from di-client.js as well,
-      // to avoid including it into the bundled code.
-      //
-      // Make sure to do this for di-server.js and server.js as well,
-      // to avoid initialazing socketIo server.
-      //
-      SocketClient  = di.get('SocketClient'),
-      socketClient  = new SocketClient(socketIo),
 
       leftAnchors   = [],
       rightAnchors  = [],
@@ -53,7 +41,6 @@ define(['app', 'di', 'socketIo'], function (app, di, socketIo) {
       },
 
       init = function init() {
-        app.bodyClass         = settingService.get('bodyClass');
         app.isAnchorSelected  = isAnchorSelected ;
         app.leftAnchors       = leftAnchors;
         app.rightAnchors      = rightAnchors;
@@ -61,12 +48,6 @@ define(['app', 'di', 'socketIo'], function (app, di, socketIo) {
         $window.onfocus = onFocused;
 
         setMenu();
-
-        //
-        // An example of message sending in socketIo.
-        //
-        socketClient.emit('hello');
-
       };
 
     init();

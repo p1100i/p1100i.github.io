@@ -34,8 +34,9 @@ define(['app'], function (app) {
 
     init = function init() {
       appendRoutes({
-        'about' : createEntityConfig('aboutController', 'about',  'about.html', ['/']),
-        'help'  : createEntityConfig('helpController',  'help',   'help.html',  ['/help'])
+        'about'   : createEntityConfig('aboutController',  'about',   'about.html',   ['/']),
+        'divide'  : createEntityConfig('divideController', 'divide',  'divide.html',  ['/divide']),
+        'help'    : createEntityConfig('helpController',   'help',    'help.html',    ['/help'])
       });
     };
 
