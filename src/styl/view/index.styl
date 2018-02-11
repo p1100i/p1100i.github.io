@@ -5,87 +5,82 @@ div.page-wrapper
   height      auto
   min-height  100%
 
+div.header-wrapper, div.footer-wrapper
+  min-width $content-width
+
 div.content-wrapper
   margin          0 auto
-  padding-top     $header-height
   padding-bottom  $footer-height + 50px
+  padding-top     $header-height
 
 div.content
-  margin-top 30px
-  padding 0 20px
+  margin-top  30px
+  padding     0 20px
+
+a.anchor
+  opacity 0.8
+  &:hover
+    opacity 1
 
 table.header
-  color             white
-  position          fixed
-  width             100%
-  height            $header-height
   background-color  $grey-dark
+  color             white
+  height            $header-height
+  position          fixed
+  white-space       nowrap
+  width             100%
   mix-user-select(none)
 
-  img
-    margin-top 4px
+  i.icon
+    height      $footer-height
+    line-height $header-height
 
-  a.menu-button
+  a.anchor
     height $header-height
 
-  span.menu-title
+  span.anchor-title
     line-height $header-height
 
-  i.icon
-    font-size 33px
-    vertical-align middle
-    line-height $header-height
+  img
+    margin-top 1px
 
-  i.home
-    color $grey-light
+  a.anchor-stackoverflow
+    padding 0 4px
 
 table.footer
-  width             100%
-  color             white
-  clear             both
-  position          relative
-  height            $footer-height
-  margin-top        -1 * $footer-height
   background-color  $grey-dark
-
-  a.menu-button
-    height $footer-height
-
-  span.menu-title
-    line-height $footer-height
+  clear             both
+  color             white
+  height            $footer-height
+  margin-top        -1 * $footer-height - 1
+  position          relative
+  white-space       nowrap
+  width             100%
 
   i.icon
-    font-size 26px
-    vertical-align middle
-    padding-right 4px
+    height        $footer-height
+    line-height   $footer-height
 
-a.menu-button
+  a.anchor
+    height $footer-height
+
+  span.anchor-title
+    line-height   $footer-height
+    margin-right  5px
+
+i.icon
+  font-size       26px
+  vertical-align  middle
+
+a.anchor
   display         inline-block
   color           $grey-white
-  padding         0 8px
+  padding         0 10px
   vertical-align  middle
+
   &:hover
-    color white
-    background-color $grey
-
-span.menu-title
-  font-size 16px
-  padding   0 6px
-
-a.home-link
-  line-height   $header-height
-  padding-left  10px
+    color             $white
+    background-color  $grey
 
 td.title-cell
   font-size 0
-
-span.bubble
-  mix-border-radius($border-radius)
-  margin        0 5px
-  padding       1px 6px
-  color         white
-  font-size     12px
-  height        18px
-  line-height   18px
-  text-align    center
-  background-color  $solarized-2

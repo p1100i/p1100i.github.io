@@ -9,7 +9,7 @@ module.exports = function (config) {
 
   options = {
     'reporters'       : reporters,
-    'basePath'        : '../build/compiled',
+    'basePath'        : '../build/development',
     'frameworks'      : ['jasmine', 'requirejs'],
     'colors'          : true,
     'logLevel'        : config.LOG_WARN, // config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
@@ -17,15 +17,14 @@ module.exports = function (config) {
     'captureTimeout'  : 6000,
     'reportSlowerThan': 500,
 
+    // The order matters, if something is matched with false `included` property,
+    // later on a match with - included true - won't inject the script into the page.
     'files': [
-      'js/bootstrap.js',
+      '../../node_modules/phantomjs-polyfill/bind-polyfill.js',
+      'js/bundle.js',
       { 'pattern' : 'js/**/*.js',                           'included': false },
-      { 'pattern' : '../../test/spec/client/**/*.spec.js',  'included': false }
+      { 'pattern' : '../../test/spec/rmodule/**/*.spec.js',  'included': false }
     ],
-
-    'mochaReporter': {
-      'ignoreSkipped': true
-    },
 
     // Start these browsers, currently available:
     // - Chrome
@@ -59,17 +58,34 @@ module.exports = function (config) {
     coverageReporters.push({ 'type' : 'json', 'subdir' : 'json', 'file': 'coverage.json' });
 
     options.preprocessors = {
-      'js/client/**/*.js': 'coverage'
+      'js/rmodule/**/*.js': 'coverage'
     };
 
     options.coverageReporter = {
-      'dir'       : '../../test/coverage/client',
+      'dir'       : '../../test/coverage/rmodule',
       'reporters' : coverageReporters
     };
 
     reporters.push('coverage');
   } else {
-    reporters.push('mocha');
+    options.jasmineDiffReporter = {
+      // pretty will make object compare identation w/ two spaces nesting level.
+      'pretty' : true,
+
+      // multiline will insert newlines between expected and actual values.
+      'multiline' : true
+    };
+
+    options.mochaReporter = {
+      // no point of showing verbose info about skipped tests
+      'ignoreSkipped' : true
+
+      // limit max log lines, avoiding long stack traces
+      // 'maxLogLines' : 10
+    };
+
+    // Add jasmine-diff as reporter to see failing spec output more clearly.
+    reporters.push('jasmine-diff', 'mocha');
   }
 
   config.set(options);

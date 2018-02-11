@@ -1,19 +1,38 @@
 <table class="header shadow-bottom" role="navigation">
   <tbody>
     <tr>
-      <td class="title-cell text-left">
-        <a href="#!/" title="Homepage of p1100i" class="menu-button left home-link">
-          <i class="icon fa fa-home home"></i>
+      <td
+        data-ng-class="{ 'selected' : app.isAnchorSelected(anchor) }"
+        data-ng-repeat="anchor in app.leftAnchors">
+
+        <span class="anchor-spacer" data-ng-if="!anchor.enabled"></span>
+
+        <a
+          data-ng-if="anchor.enabled"
+          class="anchor {{anchor.name}}"
+          href="{{anchor.href}}"
+          title="{{anchor.title}}">
+          <i class="icon fa" data-ng-class="'fa-' + anchor.icon"></i>
         </a>
       </td>
 
-      <td class="text-right">
-        <a class="menu-button right" href="https://stackexchange.com/users/916700/p1100i"><img src="https://stackexchange.com/users/flair/916700.png" width="130" height="36" alt="profile for p1100i on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for p1100i on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
-        <a class="menu-button right" href="https://github.com/p1100i" title="GitHub profile">
+      <td class="text-center width-99p"></td>
+
+      <td>
+        <a class="anchor" href="https://www.twitter.com/p1100i" title="Twitter profile">
+          <i class="icon fa fa-twitter" aria-hidden="true"></i>
+        </a>
+
+        <a class="anchor" href="https://github.com/p1100i" title="GitHub profile">
           <i class="icon fa fa-github" aria-hidden="true"></i>
         </a>
-        <a class="menu-button right" href="https://www.twitter.com/p1100i" title="Twitter profile">
-          <i class="icon fa fa-twitter" aria-hidden="true"></i>
+
+        <a class="anchor anchor-stackoverflow" href="https://stackexchange.com/users/916700/p1100i">
+          <img src="https://stackexchange.com/users/flair/916700.png"
+          width="130"
+          height="36"
+          alt="profile for p1100i on Stack Exchange, a network of free, community-driven Q&amp;A sites"
+          title="profile for p1100i on Stack Exchange, a network of free, community-driven Q&amp;A sites"/>
         </a>
       </td>
     </tr>

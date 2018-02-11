@@ -28,6 +28,9 @@
 .width-100p
   width 100% !important
 
+.width-99p
+  width 99% !important
+
 .none
   display none !important
 
@@ -36,13 +39,13 @@
   height 0 !important
 
 .block
-  display block
+  display block !important
 
 .inline-block
-  display inline-block
+  display inline-block !important
 
 .inline
-  display inline
+  display inline !important
 
 .vertical-top
   vertical-align top
@@ -50,11 +53,11 @@
 .vertical-middle
   vertical-align middle
 
-.left
-  float left
+.float-left
+  float left !important
 
-.right
-  float right
+.float-right
+  float right !important
 
 .text-center
   text-align center !important
@@ -64,6 +67,12 @@
 
 .text-right
   text-align right !important
+
+.text-justify
+  text-align justify
+
+.faded
+  opacity 0.4 !important
 
 .normalcase
   text-transform initial !important
@@ -113,6 +122,14 @@
   mix-border-bl-radius($border-radius)
   mix-border-br-radius($border-radius)
 
+.border-l-radius
+  mix-border-tl-radius($border-radius)
+  mix-border-bl-radius($border-radius)
+
+.border-r-radius
+  mix-border-tr-radius($border-radius)
+  mix-border-br-radius($border-radius)
+
 .border-tl-radius
   mix-border-tl-radius($border-radius)
 
@@ -136,3 +153,23 @@
 
 .footer-height
   height $footer-height
+
+.font-size-0
+  font-size 0
+
+.bubble
+  mix-border-radius($border-radius)
+  margin        0 5px
+  padding       1px 6px
+  color         white
+  font-size     12px
+  height        18px
+  line-height   18px
+  text-align    center
+  background-color  $solarized-2
+
+.disced
+  list-style disc
+
+  li
+    margin-left 20px

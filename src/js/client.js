@@ -1,7 +1,10 @@
+/* globals
+  document,
+  window
+*/
 var
-  shortMethods  = require('short-methods'),
-  html          = document.getElementsByTagName('html')[0],
-  pkg           = require('./package'),
+  diClient  = require('./dimodule/di-client'),
+  html      = document.getElementsByTagName('html')[0],
 
   init = function init() {
     var
@@ -10,11 +13,11 @@ var
       files = karma && karma.files,
 
       karmaRequirejsConfig = {
-        'baseUrl' : '/base/js/client'
+        'baseUrl' : '/base/js/rmodule'
       },
 
       // Workaround so, r.js ignores it on minifaction.
-      karmaDeps = ['../lib/angular-mocks/angular-mocks'],
+      karmaDeps = ['../lib/angular-mocks'],
 
       onRequireJsFinished = function onRequireJsFinished() {
         if (karma) {
@@ -31,16 +34,16 @@ var
     }
 
     requirejs.config({
-      'baseUrl': '/js/client',
+      'baseUrl': '/js/rmodule',
 
       'urlArgs' : function () {
         return '?' + Math.random().toString(36).slice(2);
       },
 
       'paths' : {
-        'angular'         : '../lib/angular/angular',
-        'angularCookies'  : '../lib/angular-cookies/angular-cookies',
-        'angularRoute'    : '../lib/angular-route/angular-route'
+        'angular'             : '../lib/angular',
+        'angularRoute'        : '../lib/angular-route',
+        'angularLocalStorage' : '../lib/angular-local-storage'
       },
 
       'shim' : {
@@ -48,14 +51,14 @@ var
           'exports' : 'angular'
         },
 
-        'angularCookies' : {
-          'deps'    : ['angular'],
-          'exports' : 'angularCookies'
-        },
-
         'angularRoute' : {
           'deps'    : ['angular'],
           'exports' : 'angularRoute'
+        },
+
+        'angularLocalStorage' : {
+          'deps'    : ['angular'],
+          'exports' : 'angularLocalStorage'
         }
       }
 
@@ -65,8 +68,8 @@ var
       requirejs.config(karmaRequirejsConfig);
     }
 
-    define('pkg', function () {
-      return pkg;
+    define('di', function defineDi() {
+      return diClient;
     });
 
     define('build', function () {
@@ -85,25 +88,28 @@ var
     requirejs([
       'angular',
       'app',
-      'angularCookies',
       'angularRoute',
+      'angularLocalStorage',
       'constant/route-config',
       'controller/about-controller',
       'controller/app-controller',
       'controller/divide-controller',
       'controller/help-controller',
-      'directive/help-directive',
-      'factory/magic-service',
       'factory/setting-service'
     ], function (angular, app) {
-      app.config(['$routeProvider', 'routeConfig', function ($routeProvider, routeConfig) {
+      app.config(['$httpProvider', '$routeProvider', 'routeConfig', 'localStorageServiceProvider', function ($httpProvider, $routeProvider, routeConfig, localStorageServiceProvider) {
         var
           i,
           path,
           paths,
-          controller,
           route,
+          controller,
           routes = routeConfig.routes;
+
+        $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+        localStorageServiceProvider.setPrefix('app');
 
         for (controller in routes) {
           route = routes[controller];
@@ -113,8 +119,9 @@ var
             path = paths[i];
 
             $routeProvider.when(path, {
-              'controller'  : controller,
-              'templateUrl' : route.templateUrl,
+              'controller'      : controller,
+              'controllerAs'    : route.controllerAs,
+              'templateUrl'     : route.templateUrl,
               'reloadOnSearch'  : false
             });
           }
@@ -126,8 +133,6 @@ var
       }]);
 
       window.angularTemplates(app);
-
-      shortMethods(true);
 
       angular.bootstrap(html, ['app']);
 

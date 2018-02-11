@@ -8,17 +8,17 @@
     <ul>
       <li>
         <label>Version</label>
-        <span title="version" class="bubble" data-ng-bind="version"></span>
+        <span title="version" class="bubble" data-ng-bind="about.version"></span>
       </li>
 
       <li>
         <label>Build date</label>
-        <span title="build time" class="bubble">{{buildDate | date:format}}</span>
+        <span title="build time" class="bubble" data-ng-bind="about.buildDate | date:about.format"></span>
       </li>
 
       <li>
         <label>Build commit</label>
-        <span title="build commit" class="bubble" data-ng-bind="buildCommit"></span>
+        <span title="build commit" class="bubble" data-ng-bind="about.buildCommit"></span>
       </li>
     </ul>
   </div>
@@ -29,7 +29,7 @@
   </div>
 
   <ul class="bg-solarized-7 shadow projects">
-    <li data-ng-repeat="project in projects">
+    <li data-ng-repeat="project in about.projects">
       <a data-ng-href="{{project.href}}" title="{{project.description}}">
         <i data-ng-class="'fa fa-' + project.icon" aria-hidden="true"></i>
         <span data-ng-bind="project.name"></span>

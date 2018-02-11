@@ -1,6 +1,8 @@
 define(['app'], function (app) {
-  app.controller('helpController', ['$rootScope', '$scope', function HelpControllerFactory($rootScope, $scope) {
+  app.controller('helpController', [function HelpControllerFactory() {
     var
+      ctrl = this,
+
       getSolarizedColorSets = function getSolarizedColorSets() {
         var
           i,
@@ -31,8 +33,8 @@ define(['app'], function (app) {
       },
 
       init = function init() {
-        $scope.customColorSets    = getCustomColorSets();
-        $scope.solarizedColorSets = getSolarizedColorSets();
+        ctrl.customColorSets    = getCustomColorSets();
+        ctrl.solarizedColorSets = getSolarizedColorSets();
       };
 
     init();
