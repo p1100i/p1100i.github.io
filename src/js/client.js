@@ -43,8 +43,7 @@ var
       'paths' : {
         'angular'             : '../lib/angular',
         'angularRoute'        : '../lib/angular-route',
-        'angularLocalStorage' : '../lib/angular-local-storage',
-        'socketIo'            : '../lib/socket.io'
+        'angularLocalStorage' : '../lib/angular-local-storage'
       },
 
       'shim' : {
@@ -91,7 +90,6 @@ var
       'app',
       'angularRoute',
       'angularLocalStorage',
-      'socketIo',
       'constant/route-config',
       'controller/about-controller',
       'controller/app-controller',

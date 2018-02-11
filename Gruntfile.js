@@ -121,8 +121,7 @@ module.exports = function runGrunt(grunt) {
               createLibCopyObject(['angular',               'angular.js']),
               createLibCopyObject(['angular-local-storage', 'dist', 'angular-local-storage.js']),
               createLibCopyObject(['angular-mocks',         'angular-mocks.js']),
-              createLibCopyObject(['angular-route',         'angular-route.js']),
-              createLibCopyObject(['socket.io-client',      'dist', 'socket.io.js'])
+              createLibCopyObject(['angular-route',         'angular-route.js'])
             ]
           },
 
@@ -491,17 +490,17 @@ module.exports = function runGrunt(grunt) {
       'coverage' : [
         'clean:coverage',
         'env:coverage',
-        'instrument',
-        'jasmine-node',
-        'storeCoverage',
+        // 'instrument',
+        // 'jasmine-node',
+        // 'storeCoverage',
         'karma',
         'replace:coverage_rmodule',
         'makeReport'
       ],
 
       'test:core' : [
-        'jshint:default',
-        'jasmine-node'
+        'jshint:default'
+        // 'jasmine-node'
       ],
 
       'test:style' : [
