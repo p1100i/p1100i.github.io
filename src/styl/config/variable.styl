@@ -21,7 +21,7 @@ colors = {
   white           : #fefefe
 
   // 50 shades of grey.
-  grey-white      : #d4d0d0,
+  grey-white      : #eeeeee,
   grey-light      : #aeb7b5,
   grey            : #556368,
   grey-dark       : #404750,
@@ -51,10 +51,10 @@ colors = {
 }
 
 text-color(c)
-  color : c
+  color : c !important
 
 bg-color(c)
-  background-color : c
+  background-color : c !important
 
 for name, value in colors
   // Defined $COLOR_NAME variable to use it anywhere else.
@@ -70,8 +70,9 @@ for name, value in colors
 
 // Some extra variable definitions.
 $shadow-color   = #a1a1a1
-$selected-color = $teal
+$selected-color = $grey
 
-$header-height  = 44px
+$header-height  = 38px
 $footer-height  = 35px
+$content-width  = 800px
 $border-radius  = 8px
