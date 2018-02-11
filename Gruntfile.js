@@ -379,7 +379,7 @@ module.exports = function runGrunt(grunt) {
               'src'   : ['publish/index.html'],
               'dest'  : 'publish/index.html'
             }]
-          },
+          }
         },
 
         'requirejs' : {
