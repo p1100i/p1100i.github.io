@@ -1,516 +1,611 @@
-var
-  getCommit = function getCommit() {
-    return require('child_process').spawnSync('git', ['rev-parse', '--short', 'HEAD^']).stdout.toString().trim();
-  },
+module.exports = function runGrunt(grunt) {
+  var
+    pkg = grunt.file.readJSON('package.json'),
 
-  TASK_CONFIG = {
-    'bower' : {
-      'install' : {
-        'options' : {
-          'copy' : false
-        }
+    path          = require('path'),
+    childProcess  = require('child_process'),
+
+    getCommit = function getCommit() {
+      return childProcess.spawnSync('git', ['rev-parse', '--short', 'HEAD^']).stdout.toString().trim();
+    },
+
+    createLibCopyObject = function createLibCopyObject(dirs) {
+      var
+        src   = dirs.slice(),
+        dest  = [dirs[dirs.length - 1]];
+
+      src.unshift('node_modules');
+      dest.unshift('build', 'development', 'js', 'lib');
+
+      src   = path.join.apply(null, src);
+      dest  = path.join.apply(null, dest);
+
+      return {
+        'src'   : src,
+        'dest'  : dest
+      };
+    },
+
+    registerTask = function registerTask(taskName, task) {
+      grunt.registerTask(taskName, task);
+    },
+
+    registerTasks = function registerTasks(tasks) {
+      var
+        taskName;
+
+      for (taskName in tasks) {
+        registerTask(taskName, tasks[taskName]);
       }
     },
 
-    'browserify' : {
-      'target' : {
-        'files': [
-          {
-            'expand'  : true,
-            'src'     : 'client-bootstrap.js',
-            'dest'    : 'build/precompiled/js'
-          }
-        ]
-      }
-    },
-
-    'clean' : {
-      'coverage' : 'test/coverage',
-
-      'precompiled' : 'build/precompiled',
-      'compiled'    : 'build/compiled',
-      'minified'    : 'build/minified',
-      'publish'     : 'publish'
-    },
-
-    'concat' : {
-      'options': {
-        'separator': ';'
-      },
-
-      'compiled' : {
-        'files': {
-          'build/compiled/js/bootstrap.js' : ['bower_components/requirejs/require.js', 'build/precompiled/js/template.js', 'build/precompiled/js/client-bootstrap.js']
-        }
-      }
-    },
-
-    'copy' : {
-      'asset_compiled' : {
-        'expand'  : true,
-        'cwd'     : 'asset/',
-        'src'     : '**/*',
-        'dest'    : 'build/compiled/'
-      },
-
-      'asset_minified' : {
-        'expand'  : true,
-        'cwd'     : 'asset/',
-        'src'     : '**/*',
-        'dest'    : 'build/minified/'
-      },
-
-      'view' : {
-        'expand'  : true,
-        'cwd'     : 'src/html/view',
-        'src'     : '**/*',
-        'dest'    : 'build/compiled'
-      },
-
-      'js_lib_client' : {
-        'expand'  : true,
-        'cwd'     : 'bower_components',
-        'src'     : '**/*',
-        'dest'    : 'build/compiled/js/lib'
-      },
-
-      'js_src_client' : {
-        'expand'  : true,
-        'cwd'     : 'src/js/client',
-        'src'     : '**/*',
-        'dest'    : 'build/compiled/js/client'
-      },
-
-      'publish' : {
-        'expand'  : true,
-        'cwd'     : 'build/minified',
-        'src'     : '**/*',
-        'dest'    : 'publish'
-      }
-    },
-
-    'cssmin' : {
-      'options': {
-        'shorthandCompacting': false,
-        'roundingPrecision': -1
-      },
-
-      'minified': {
-        'files': [
-          {
-            'src'   : 'build/compiled/css/app.css',
-            'dest'  : 'build/minified/css/app.css'
-          }
-        ]
-      }
-    },
-
-    'env' : {
-      'coverage': {
-        'SRC_COVERAGE'    : '../test/coverage/node/instrument/src/js/node',
-        'KARMA_COVERAGE'  : true
-      }
-    },
-
-    'gh-pages' : {
-      'options': {
-        'base': 'build/minified',
-        'user': {
-          'name': '<%= pkg.author.name %>',
-          'email': '<%= pkg.author.email %>'
-        }
-      },
-
-      'src': ['**/*']
-    },
-
-    'htmlmin' : {
-      'minified': {
-        'options': {
-          'removeComments'      : true,
-          'collapseWhitespace'  : true
+    getTaskConfig = function getTaskConfig() {
+      return {
+        'browserify' : {
+          'build/tmp/js/client.js' : 'src/js/client.js'
         },
 
-        'files': [
-          {
-            'expand'  : true,
-            'src'     : ['*.html'],
-            'cwd'     : 'build/compiled',
-            'dest'    : 'build/minified'
-          }
-        ]
-      }
-    },
+        'clean' : {
+          'coverage' : 'test/coverage',
 
-    'instrument' : {
-      'files' : 'src/js/node/**/*.js',
-
-      'options' : {
-        'lazy'      : true,
-        'basePath'  : 'test/coverage/node/instrument'
-      }
-    },
-
-    'jscs' : {
-      'options' : {
-        'disallowTrailingWhitespace'            : true,
-        'disallowTrailingComma'                 : true,
-        'disallowFunctionDeclarations'          : true,
-        'disallowNewlineBeforeBlockStatements'  : true,
-        'disallowMixedSpacesAndTabs'            : true,
-        'requireDotNotation'                    : true,
-        'requireMultipleVarDecl'                : true,
-        'requireSpaceAfterKeywords'             : true,
-        'requireSpaceBeforeBlockStatements'     : true,
-        'requireSpacesInConditionalExpression'  : true,
-        'requireCurlyBraces'                    : true,
-        'disallowKeywordsOnNewLine'             : ['else'],
-        'validateIndentation'                   : 2,
-        'requireSpacesInFunction' : {
-          'beforeOpeningCurlyBrace' : true
-        }
-      },
-
-      'default' : ['*.js', 'config', 'src', 'test/spec']
-    },
-
-    'jasmine-node' : {
-      'options' : {
-        'spec_files'  : ['test/spec/node/**/*.spec.js'],
-        'random'      : true
-      }
-    },
-
-    'jshint' : {
-      'options': {
-        'globals'     : {
-          'define'    : false,
-          'requirejs' : false,
-          'inject'    : false
+          'tmp'         : 'build/tmp',
+          'development' : 'build/development',
+          'production'  : 'build/production',
+          'publish'     : 'publish'
         },
 
-        'jasmine'     : true,
-        'browser'     : true,
-        'curly'       : true,
-        'eqeqeq'      : true,
-        'eqnull'      : true,
-        'latedef'     : true,
-        'newcap'      : true,
-        'node'        : true,
-        'nonew'       : true,
-        'nonbsp'      : true,
-        'quotmark'    : 'single',
-        'undef'       : true,
-        'debug'       : true,
-        'indent'      : 2
-      },
-
-      'default' : ['*.js', 'config', 'src', 'test/spec'],
-
-      'strict' : {
-        'options' : {
-          'noempty' : true,
-          'unused'  : 'vars'
-        },
-
-        'files' : {
-          'src' : ['*.js', 'config', 'src', 'test/spec']
-        }
-      }
-    },
-
-    'karma' : {
-      'unit' : {
-        'configFile' : 'test/karma.conf.js'
-      }
-    },
-
-    'makeReport' : {
-      'src' : 'test/coverage/**/*.json',
-
-      'options' : {
-        'type'  : 'html',
-        'dir'   : 'test/coverage/html',
-        'print' : 'detail'
-      }
-    },
-
-    'md5symlink' : {
-      'options' : {
-        'patterns' : ['.js', '.css']
-      },
-
-      'minified': {
-        'src'   : 'build/minified/**/*',
-        'dest'  : 'build/minified'
-      }
-    },
-
-    'ngtemplates' : {
-      'default' : {
-        'cwd'         : 'src/html/template',
-        'src'         : '**/*.html',
-        'dest'        : 'build/precompiled/js/template.js',
-        'options'     : {
-          'bootstrap': function (module, script) {
-            // This predefines a function which will populate the angular
-            // cache with the template HTML. Check out the generated
-            // template.js under the build directory, you'll need to call
-            // it with your angular app instance.
-            return 'window.angularTemplates = function angularTemplates(app) { app.run([\'$templateCache\', function ($templateCache) { ' + script + ' } ]) };';
+        'concat' : {
+          'options': {
+            'separator': ';'
           },
 
-          // Reference existing task.
-          'htmlmin' : {
-            'collapseWhitespace'        : true,
-            'collapseBooleanAttributes' : true
+          'build/development/js/bundle.js' : [
+            'node_modules/requirejs/require.js',
+            'build/tmp/js/template.js',
+            'build/tmp/js/client.js'
+          ],
+
+          'build/production/js/bundle.js' : [
+            'node_modules/requirejs/require.js',
+            'build/tmp/js/template.js',
+            'build/tmp/js/client.js'
+          ]
+        },
+
+        'copy' : {
+          'asset' : {
+            'files' : [
+              {
+                'expand'  : true,
+                'cwd'     : 'asset/',
+                'src'     : '**/*',
+                'dest'    : 'build/development/'
+              },
+
+              {
+                'expand'  : true,
+                'cwd'     : 'asset/',
+                'src'     : '**/*',
+                'dest'    : 'build/production/'
+              }
+            ]
+          },
+
+          'fa' : {
+            'files' : [
+              {
+                'expand'  : true,
+                'cwd'     : 'node_modules/font-awesome/fonts',
+                'src'     : '*',
+                'dest'    : 'build/development/fonts'
+              },
+
+              {
+                'expand'  : true,
+                'cwd'     : 'node_modules/font-awesome/fonts',
+                'src'     : '*',
+                'dest'    : 'build/production/fonts'
+              }
+            ]
+          },
+
+          'view' : {
+            'expand'  : true,
+            'cwd'     : 'src/html/view',
+            'src'     : '**/*',
+            'dest'    : 'build/development'
+          },
+
+          'lib' : {
+            'files' : [
+              createLibCopyObject(['angular',               'angular.js']),
+              createLibCopyObject(['angular-local-storage', 'dist', 'angular-local-storage.js']),
+              createLibCopyObject(['angular-mocks',         'angular-mocks.js']),
+              createLibCopyObject(['angular-route',         'angular-route.js']),
+              createLibCopyObject(['socket.io-client',      'dist', 'socket.io.js'])
+            ]
+          },
+
+          'rmodule' : {
+            'expand'  : true,
+            'cwd'     : 'src/js/rmodule',
+            'src'     : '**/*',
+            'dest'    : 'build/development/js/rmodule'
+          },
+
+          'publish' : {
+            'expand'  : true,
+            'cwd'     : 'build/production',
+            'src'     : '**/*',
+            'dest'    : 'publish'
+          }
+        },
+
+        'cssmin' : {
+          'options': {
+            'shorthandCompacting': false,
+            'roundingPrecision': -1
+          },
+
+          'build/production/css/app.css' : 'build/development/css/app.css'
+        },
+
+        'env' : {
+          'coverage': {
+            'SRC_COVERAGE'    : '../test/coverage/dimodule/instrument/src/js',
+            'KARMA_COVERAGE'  : true
+          }
+        },
+
+        'htmlmin' : {
+          'options': {
+            'removeComments'      : true,
+            'collapseWhitespace'  : true
+          },
+
+          'production': {
+            'expand'  : true,
+            'src'     : ['*.html'],
+            'cwd'     : 'src/html/view',
+            'dest'    : 'build/production'
+          }
+        },
+
+        'instrument' : {
+          'files' : 'src/js/dimodule/**/*.js',
+
+          'options' : {
+            'lazy'      : true,
+            'basePath'  : 'test/coverage/dimodule/instrument'
+          }
+        },
+
+        'jasmine-node' : {
+          'options' : {
+            'spec_files'  : ['test/spec/dimodule/**/*.spec.js'],
+            'random'      : true
+          }
+        },
+
+        'jscs' : {
+          'options' : {
+            'disallowTrailingWhitespace'            : true,
+            'disallowTrailingComma'                 : true,
+            'disallowFunctionDeclarations'          : true,
+            'disallowNewlineBeforeBlockStatements'  : true,
+            'disallowMixedSpacesAndTabs'            : true,
+            'requireDotNotation'                    : true,
+            'requireMultipleVarDecl'                : true,
+            'requireSpaceAfterKeywords'             : true,
+            'requireSpaceBeforeBlockStatements'     : true,
+            'requireSpacesInConditionalExpression'  : true,
+            'requireCurlyBraces'                    : true,
+            'disallowKeywordsOnNewLine'             : ['else'],
+            'validateIndentation'                   : 2,
+            'requireSpacesInFunction' : {
+              'beforeOpeningCurlyBrace' : true
+            }
+          },
+
+          'default' : ['*.js', 'config', 'src', 'test/spec']
+        },
+
+        'jshint' : {
+          'options': {
+            'globals'     : {
+              'browser'     : false,
+              'by'          : false,
+              'define'      : false,
+              'element'     : false,
+              'inject'      : false,
+              'protractor'  : false,
+              'requirejs'   : false
+            },
+
+            'jasmine'     : true,
+            'browser'     : true,
+            'curly'       : true,
+            'eqeqeq'      : true,
+            'eqnull'      : true,
+            'latedef'     : true,
+            'newcap'      : true,
+            'node'        : true,
+            'nonew'       : true,
+            'nonbsp'      : true,
+            'quotmark'    : 'single',
+            'undef'       : true,
+            'debug'       : true,
+            'indent'      : 2
+          },
+
+          'default' : ['*.js', 'config', 'src', 'test/spec'],
+
+          'strict' : {
+            'options' : {
+              'noempty' : true,
+              'unused'  : 'vars'
+            },
+
+            'files' : {
+              'src' : ['*.js', 'config', 'src', 'test/spec']
+            }
+          }
+        },
+
+        'karma' : {
+          'unit' : {
+            'configFile' : 'test/karma.conf.js'
+          }
+        },
+
+        'makeReport' : {
+          'src' : 'test/coverage/**/*.json',
+
+          'options' : {
+            'type'  : 'html',
+            'dir'   : 'test/coverage/html',
+            'print' : 'detail'
+          }
+        },
+
+        'md5symlink' : {
+          'options' : {
+            'patterns' : ['.js', '.css']
+          },
+
+          'development': {
+            //
+            // Note: build/development contains lots of other directories.
+            //
+            'src'   : ['build/development/css/*', 'build/development/js/*'],
+            'dest'  : 'build/development'
+          },
+
+          'production': {
+            'src'   : 'build/production/**/*',
+            'dest'  : 'build/production'
+          }
+        },
+
+        'ngtemplates' : {
+          'default' : {
+            'cwd'         : 'src/html/template',
+            'src'         : '**/*.html',
+            'dest'        : 'build/tmp/js/template.js',
+            'options'     : {
+              'bootstrap': function (module, script) {
+                //
+                // This predefines a function which will populate the angular
+                // cache with the template HTML. Check out the generated
+                // template.js under the build directory, you'll need to call
+                // it with your angular app instance.
+                //
+                return 'window.angularTemplates = function angularTemplates(app) { app.run([\'$templateCache\', function ($templateCache) { ' + script + ' } ]) };';
+              },
+
+              //
+              // Reference existing task.
+              //
+              'htmlmin' : {
+                'collapseWhitespace'        : true,
+                'collapseBooleanAttributes' : true
+              }
+            }
+          }
+        },
+
+        'notify_hooks' : {
+          'options' : {
+            'success' : true
+          }
+        },
+
+        'protractor' : {
+          'options' : {
+            //
+            // This can be disabled after the first run.
+            //
+            'webdriverManagerUpdate' : true,
+
+            'keepAlive' : true
+          },
+
+          'default' : {
+            'configFile'  : 'test/protractor.conf.js'
+          }
+        },
+
+        'replace' : {
+          'build' : {
+            'options': {
+              'patterns': [{
+                'json' : {
+                  'BUILD_DATE'    : Date.now(),
+                  'BUILD_COMMIT'  : getCommit()
+                }
+              }]
+            },
+
+            'files': [{
+              'src'   : ['build/tmp/js/client.js'],
+              'dest'  : 'build/tmp/js/client.js'
+            }]
+          },
+
+          'coverage_rmodule': {
+            'options': {
+              'patterns': [{
+                'match'       : /\/[^"]*build\/development/g,
+                'replacement' : 'src'
+              }]
+            },
+
+            'files': [{
+              'src'   : ['test/coverage/rmodule/json/coverage.json'],
+              'dest'  : 'test/coverage/rmodule/json/coverage.json'
+            }]
+          },
+
+          'publish' : {
+            'options': {
+              'patterns': [{
+                'match'       : /(href|src)="(css|js)/g,
+                'replacement' : function (fullMatch, linkType, folder) {
+                  return linkType + '="publish/' + folder;
+                }
+              }]
+            },
+
+            'files': [{
+              'src'   : ['publish/index.html'],
+              'dest'  : 'publish/index.html'
+            }]
+          },
+        },
+
+        'requirejs' : {
+          'production' : {
+            'options': {
+              'baseUrl'         : 'build/development/js/rmodule',
+              //
+              // src file is used only as configuration, it is only parsed
+              // by requireJS to know what to include. The file which is the
+              // source of minification is defined in the `include` property.
+              //
+              'mainConfigFile'  : 'src/js/client.js',
+              'include'         : ['../../../production/js/bundle.js'],
+              'out'             : 'build/production/js/bundle.js',
+
+              'uglify2' : {
+                'compress' : {
+                  'dead_code' : true,
+
+                  //
+                  // Put code in your app in a condition
+                  // if (DEBUG) ... it will be never built
+                  // into the production, however you can
+                  // leave it there for development purpose.
+                  //
+                  'global_defs': {
+                    'DEBUG' : false
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        'storeCoverage' : {
+          'options' : {
+            'include-all-sources' : true,
+            'dir'                 : 'test/coverage/dimodule/json'
+          }
+        },
+
+        'stylus' : {
+          'options' : {
+            //
+            // Use import statements on css as copy inclusion.
+            //
+            'include css' : true,
+            'compress'    : false
+          },
+
+          'build/development/css/app.css' : 'src/styl/main.styl'
+        },
+
+        'symlinkassets' : {
+          'development': {
+            'root'  : 'development',
+            'src'   : 'build/development/**/*',
+            'dest'  : 'build/development'
+          },
+
+          'production': {
+            'root'  : 'production',
+            'src'   : 'build/production/**/*',
+            'dest'  : 'build/production'
+          }
+        },
+
+        'watch' : {
+          //
+          // Turning off 'spawn' option can speed up the watch execution, however
+          // some grunt-task do not play well by having executed multiple times
+          // in the same process (e.g. jasmine-node)
+          //
+          // 'options' : {
+          //   'spawn' : false
+          // },
+          //
+
+          'asset' : {
+            'files' : ['asset/**/*'],
+            'tasks' : ['copy:asset']
+          },
+
+          'bundle' : {
+            'files' : ['src/js/client.js', 'src/js/dimodule/**/*.js', 'test/spec/dimodule/**/*.js'],
+            'tasks' : ['test:core', 'browserify', 'replace:build', 'concat', 'md5:development', 'test:client']
+          },
+
+          'rmodule' : {
+            'files' : ['src/js/rmodule/**/*.js', 'test/spec/rmodule/**/*.js'],
+            'tasks' : ['test:core', 'copy:rmodule', 'test:client']
+          },
+
+          'html' : {
+            'files' : ['src/html/**/*.html'],
+            'tasks' : ['ngtemplates', 'concat', 'copy:view', 'md5:development']
+          },
+
+          'styl' : {
+            'files' : ['src/styl/**/*'],
+            'tasks' : ['stylus', 'md5:development']
           }
         }
-      }
-    },
-
-    'replace' : {
-      'publish' : {
-        'options': {
-          'patterns': [{
-            'match'       : /(href|src)="(css|js)/g,
-            'replacement' : function (fullMatch, linkType, folder) {
-              return linkType + '="publish/' + folder;
-            }
-          }]
-        },
-
-        'files': [{
-          'src'   : ['publish/index.html'],
-          'dest'  : 'publish/index.html'
-        }]
-      },
-
-      'build' : {
-        'options': {
-          'patterns': [{
-            'json' : {
-              'BUILD_DATE'    : Date.now(),
-              'BUILD_COMMIT'  : getCommit()
-            }
-          }]
-        },
-
-        'files': [{
-          'src'   : ['build/precompiled/js/client-bootstrap.js'],
-          'dest'  : 'build/precompiled/js/client-bootstrap.js'
-        }]
-      },
-
-      'coverage_client': {
-        'options': {
-          'patterns': [{
-            'match'       : /\/[^"]*build\/compiled/g,
-            'replacement' : 'src'
-          }]
-        },
-
-        'files': [{
-          'src'   : ['test/coverage/client/json/coverage.json'],
-          'dest'  : 'test/coverage/client/json/coverage.json'
-        }]
-      }
-    },
-
-    'requirejs' : {
-      'compile' : {
-        'options': {
-          'baseUrl'         : 'build/compiled/js/client',
-          'mainConfigFile'  : 'client-bootstrap.js',
-          'include'         : ['../bootstrap.js'],
-          'out'             : 'build/minified/js/bootstrap.js'
-        }
-      }
-    },
-
-    'storeCoverage' : {
-      'options' : {
-        'include-all-sources' : true,
-        'dir'                 : 'test/coverage/node/json'
-      }
-    },
-
-    'stylus' : {
-      'options' : {
-        // Use import statements on css as copy inclusion.
-        'include css' : true,
-        'compress'    : false
-      },
-
-      'compiled' : {
-        'files': [
-          {
-            'src'     : 'src/styl/main.styl',
-            'dest'    : 'build/compiled/css/app.css'
-          }
-        ]
-      }
-    },
-
-    'symlinkassets' : {
-      'minified': {
-        'root'  : 'minified',
-        'src'   : 'build/minified/**/*',
-        'dest'  : 'build/minified'
-      }
-    },
-
-    'watch' : {
-      'options' : {
-        'spawn' : false
-      },
-
-      'asset' : {
-        'files' : ['asset/**/*'],
-        'tasks' : ['copy:asset_compiled', 'copy:asset_minified']
-      },
-
-      'bootstrap' : {
-        'files' : ['client-bootstrap.js'],
-        'tasks' : ['browserify', 'concat:compiled']
-      },
-
-      'client' : {
-        'files' : ['src/js/client/**/*.js', 'test/spec/client/**/*.js'],
-        'tasks' : ['copy:js_src_client', 'test:client']
-      },
-
-      'html' : {
-        'files' : ['src/html/**/*.html'],
-        'tasks' : ['ngtemplates', 'concat:compiled', 'copy:view']
-      },
-
-      'styl' : {
-        'files' : ['src/styl/**/*'],
-        'tasks' : ['stylus:compiled']
-      }
-    }
-  },
-
-  TASKS = {
-    'coverage' : [
-      'clean:coverage',
-      'env:coverage',
-      'instrument',
-      'jasmine-node',
-      'storeCoverage',
-      'karma',
-      'replace:coverage_client',
-      'makeReport'
-    ],
-
-    'test:core' : [
-      'jshint:default',
-      'jasmine-node'
-    ],
-
-    'test:client' : [
-      'karma'
-    ],
-
-    'test:style' : [
-      'jshint:strict',
-      'jscs'
-    ],
-
-    'compile' : [
-      'clean:precompiled',
-      'clean:compiled',
-      'browserify',
-      'replace:build',
-      'ngtemplates',
-      'concat:compiled',
-      'stylus:compiled',
-      'copy:js_src_client',
-      'copy:js_lib_client',
-      'copy:view',
-      'copy:asset_compiled'
-    ],
-
-    'minify' : [
-      'clean:minified',
-      'htmlmin:minified',
-      'cssmin:minified',
-      'copy:asset_minified',
-      'requirejs'
-    ],
-
-    'md5' : [
-      'md5symlink',
-      'symlinkassets'
-    ],
-
-    'build:dev' : [
-      'test:core',
-      'compile',
-      'test:client'
-    ],
-
-    'build' : [
-      'compile',
-      'minify',
-      'md5'
-    ],
-
-    'test' : [
-      'test:core',
-      'test:client',
-      'test:style'
-    ],
-
-    'dev' : [
-      'clean',
-      'build:dev',
-      'watch'
-    ],
-
-    'publish' : [
-      'clean',
-      'bower',
-      'build',
-      'copy:publish',
-      'replace:publish'
-    ],
-
-    'default' : [
-      'bower',
-      'test:style',
-      'build'
-      // 'coverage'
-    ]
-  },
-
-  runGrunt = function runGrunt(grunt) {
-    var
-      registerTask = function registerTask(taskName, task) {
-        grunt.registerTask(taskName, task);
-      },
-
-      registerTasks = function registerTasks(tasks) {
-        var
-          taskName;
-
-        for (taskName in tasks) {
-          registerTask(taskName, tasks[taskName]);
-        }
-      },
-
-      init = function init() {
-        TASK_CONFIG.pkg = grunt.file.readJSON('package.json');
-
-        grunt.initConfig(TASK_CONFIG);
-
-        require('load-grunt-tasks')(grunt);
-
-        registerTasks(TASKS);
       };
+    },
 
-    init();
-  };
+    TASKS = {
+      'coverage' : [
+        'clean:coverage',
+        'env:coverage',
+        'instrument',
+        'jasmine-node',
+        'storeCoverage',
+        'karma',
+        'replace:coverage_rmodule',
+        'makeReport'
+      ],
 
-module.exports = runGrunt;
+      'test:core' : [
+        'jshint:default',
+        'jasmine-node'
+      ],
+
+      'test:style' : [
+        'jshint:strict',
+        'jscs'
+      ],
+
+      'test:client' : [
+        'karma'
+      ],
+
+      'test:e2e' : [
+        'protractor'
+      ],
+
+      'md5:development' : [
+        'md5symlink:development',
+        'symlinkassets:development'
+      ],
+
+      'md5:production' : [
+        'md5symlink:production',
+        'symlinkassets:production'
+      ],
+
+      'compile' : [
+        'clean:tmp',
+        'clean:development',
+        'browserify',
+        'replace:build',
+        'ngtemplates',
+        'concat',
+        'stylus',
+        'copy:fa',
+        'copy:lib',
+        'copy:rmodule',
+        'copy:view',
+        'copy:asset',
+        'md5:development'
+      ],
+
+      'minify' : [
+        'clean:production',
+        'htmlmin',
+        'cssmin',
+        'copy:asset',
+        'copy:fa',
+        'concat',
+        'requirejs',
+        'md5:production'
+      ],
+
+      'build:dev' : [
+        'test:core',
+        'compile',
+        'test:client'
+      ],
+
+      'build' : [
+        'compile',
+        'minify'
+      ],
+
+      'test' : [
+        'test:core',
+        'test:client',
+        'test:style'
+      ],
+
+      'dev' : [
+        'clean',
+        'build:dev',
+        'watch'
+      ],
+
+      'publish' : [
+        'clean',
+        'build',
+        'copy:publish',
+        'replace:publish'
+      ],
+
+      'default' : [
+        'test:style',
+        'build',
+        'coverage'
+      ]
+    },
+
+    init = function init() {
+      var
+        taskConfig = getTaskConfig();
+
+      taskConfig.pkg = pkg;
+
+      grunt.initConfig(taskConfig);
+
+      require('load-grunt-tasks')(grunt);
+
+      // Run notification hooks: notify about successful run also.
+      grunt.task.run('notify_hooks');
+
+      registerTasks(TASKS);
+    };
+
+  init();
+};
