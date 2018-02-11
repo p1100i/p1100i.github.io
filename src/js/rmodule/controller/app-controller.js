@@ -4,7 +4,6 @@ define(['app'], function (app) {
       app = this,
 
       leftAnchors   = [],
-      rightAnchors  = [],
 
       createAnchor = function createAnchor(name, href, title, icon, disabled) {
         var
@@ -21,11 +20,8 @@ define(['app'], function (app) {
 
       setMenu = function setMenu() {
         leftAnchors.push(
-          createAnchor('help',  '#!/help', 'Help',  'question-circle')
-        );
-
-        rightAnchors.push(
-          createAnchor('about', '#!/',     'About', 'home')
+          createAnchor('about',  '#!/',       'About',  'home'),
+          createAnchor('divide', '#!/divide', 'Divide', 'calculator')
         );
       },
 
@@ -43,7 +39,6 @@ define(['app'], function (app) {
       init = function init() {
         app.isAnchorSelected  = isAnchorSelected ;
         app.leftAnchors       = leftAnchors;
-        app.rightAnchors      = rightAnchors;
 
         $window.onfocus = onFocused;
 
