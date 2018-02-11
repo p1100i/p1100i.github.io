@@ -9,15 +9,18 @@ div.header-wrapper, div.footer-wrapper
   min-width $content-width
 
 div.content-wrapper
-  display         table
   margin          0 auto
   padding-bottom  $footer-height + 50px
   padding-top     $header-height
-  width           $content-width
 
 div.content
   margin-top  30px
   padding     0 20px
+
+a.anchor
+  opacity 0.8
+  &:hover
+    opacity 1
 
 table.header
   background-color  $grey-dark
@@ -38,12 +41,18 @@ table.header
   span.anchor-title
     line-height $header-height
 
+  img
+    margin-top 1px
+
+  a.anchor-stackoverflow
+    padding 0 4px
+
 table.footer
   background-color  $grey-dark
   clear             both
   color             white
   height            $footer-height
-  margin-top        -1 * $footer-height
+  margin-top        -1 * $footer-height - 1
   position          relative
   white-space       nowrap
   width             100%
@@ -75,14 +84,3 @@ a.anchor
 
 td.title-cell
   font-size 0
-
-span.bubble
-  mix-border-radius($border-radius)
-  margin        0 5px
-  padding       1px 6px
-  color         white
-  font-size     12px
-  height        18px
-  line-height   18px
-  text-align    center
-  background-color  $solarized-2
