@@ -93,6 +93,7 @@ var
       'constant/route-config',
       'controller/about-controller',
       'controller/app-controller',
+      'controller/divide-controller',
       'controller/help-controller',
       'factory/setting-service'
     ], function (angular, app) {
