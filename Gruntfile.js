@@ -571,7 +571,8 @@ module.exports = function runGrunt(grunt) {
       ],
 
       'dev' : [
-        'clean',
+        'clean:tmp',
+        'clean:development',
         'build:dev',
         'watch'
       ],
