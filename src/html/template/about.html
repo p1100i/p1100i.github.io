@@ -8,17 +8,17 @@
     <ul>
       <li>
         <label>Version</label>
-        <span title="version" class="bubble" data-ng-bind="about.version"></span>
+        <span title="version" class="bubble" data-ng-bind="about.build.version"></span>
       </li>
 
       <li>
-        <label>Build date</label>
-        <span title="build time" class="bubble" data-ng-bind="about.buildDate | date:about.format"></span>
+        <label>Date</label>
+        <span title="date" class="bubble" data-ng-bind="about.build.date | date:'yyyy-MM-dd HH:mm'"></span>
       </li>
 
       <li>
-        <label>Build commit</label>
-        <span title="build commit" class="bubble" data-ng-bind="about.buildCommit"></span>
+        <label>Commit</label>
+        <span title="commit" class="bubble" data-ng-bind="about.build.commit"></span>
       </li>
     </ul>
   </div>

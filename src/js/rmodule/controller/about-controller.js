@@ -1,9 +1,9 @@
-define(['app', 'di', 'build'], function (app, di, build) {
+define(['app', 'depi'], function (app, depi) {
   app.controller('aboutController', [function AboutControllerFactory() {
     var
       about = this,
 
-      package = di.get('package'),
+      build = depi.get('build'),
 
       PROJECTS = [
         [
@@ -58,18 +58,6 @@ define(['app', 'di', 'build'], function (app, di, build) {
         };
       },
 
-      getDateFormat = function getDateFormat(short) {
-        if (short) {
-          return 'yyyy-MM-dd HH:mm';
-        }
-
-        return 'yyyy-MM-dd HH:mm:ss';
-      },
-
-      displayData = function displayData(data) {
-        return data || 'n/a';
-      },
-
       getProjects = function getProjects() {
         var
           i,
@@ -83,12 +71,8 @@ define(['app', 'di', 'build'], function (app, di, build) {
       },
 
       init = function init() {
-        about.buildCommit = displayData(build.commit);
-        about.buildDate   = displayData(build.date);
-        about.format      = displayData(getDateFormat());
-        about.unixTime    = displayData(Math.floor(build.date / 1e3));
-        about.version     = displayData(package.version);
-        about.projects    = getProjects();
+        about.build     = build;
+        about.projects  = getProjects();
       };
 
     init();
