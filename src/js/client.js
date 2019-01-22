@@ -3,8 +3,8 @@
   window
 */
 var
-  diClient  = require('./dimodule/di-client'),
-  html      = document.getElementsByTagName('html')[0],
+  depiClient  = require('./dimodule/depi-client.js'),
+  html        = document.getElementsByTagName('html')[0],
 
   init = function init() {
     var
@@ -68,18 +68,8 @@ var
       requirejs.config(karmaRequirejsConfig);
     }
 
-    define('di', function defineDi() {
-      return diClient;
-    });
-
-    define('build', function () {
-      //
-      // Strings gets replaced on build time, by grunt.
-      //
-      return {
-        'date'    : '@@BUILD_DATE',
-        'commit'  : '@@BUILD_COMMIT'
-      };
+    define('depi', function defineDi() {
+      return depiClient;
     });
 
     //

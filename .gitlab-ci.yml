@@ -1,0 +1,6 @@
+image:
+  name: p1100i/js
+
+test:
+  script:
+    - echo "DONE w/ default entrypoint."

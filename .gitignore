@@ -1,7 +1,5 @@
 node_modules
 npm-debug.log
 test/coverage
-build/tmp/*
-build/development/*
-build/production/*
-config/*
+build
+src/js/dimodule/build.js
