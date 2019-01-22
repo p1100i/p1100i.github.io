@@ -1,6 +1,6 @@
 {
   "name": "p1100i.github.io",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Homepage of p1100i",
   "scripts": {
     "bump": "npm version $VERSION && ./grunt.sh publish && git add -A && git commit --amend --no-edit && git tag -f v$VERSION",
